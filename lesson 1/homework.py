@@ -9,10 +9,15 @@ print(flag)
 '''
 
 # Task 2
-
+'''
+num = int(input("Введите общее количество журавликов: "))  
+boys = num // 6
+girl = boys*4
+print(f"Петя сделал: {boys} журавликов, Катя сделала: {girl} журавликов, Сережа сделал: {boys} журавликов")
+'''
 
 # Task 3
-
+'''
 num = int(input("Введите 6 значный номер: "))
 if num//100000 != 1:
     print("Введите 6 значное число")
@@ -31,6 +36,15 @@ else:
         print("Yes")
     else:
         print("No")
-
+'''
 
 # Task 4
+'''
+n = int(input("Введите 1 число: "))
+m = int(input("Введите 2 число: "))
+k = int(input("Введите 3 число: "))
+if k < n * m and ((k % n == 0) or (k % m == 0)):
+    print('YES')
+else:
+    print('NO')
+'''
