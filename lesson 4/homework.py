@@ -1,14 +1,15 @@
 # Task 1
 
 '''
-arr_1 = [int(input(f"Введите {i+1} число: ")) for i in range(int(input("Введите количество чисел 1 набора: ")))]
-arr_2 = [int(input(f"Введите {i+1} число: ")) for i in range(int(input("Введите количество чисел 2 набора: ")))]
+import random
 
+arr_1 = [int(random.random() * 20) for i in range(int(input("Введите количество чисел 1 набора: ")))]
+arr_2 = [int(random.random() * 20) for i in range(int(input("Введите количество чисел 2 набора: ")))]
+print("1 набор: ", arr_1)
+print("2 набор: ", arr_2)
 set_1 = set(arr_1)
 set_2 = set(arr_2)
-
 res = list()
-
 for i in set_1:
     if i in set_2:
         res.append(i)
