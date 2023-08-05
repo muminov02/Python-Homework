@@ -1,5 +1,8 @@
+import json
+import os
+import uuid
 from datetime import datetime
-import uuid, os
+
 
 def get_value(value):
 
@@ -7,41 +10,55 @@ def get_value(value):
         header = input("Enter header of note: ")
         body = input("Enter body of note: ")
         time = datetime.now().strftime("%D, %H:%M:%S")
-        with open(f"notes/{header}.txt", "w") as file:
-            file.writelines(f"ID: {uuid.uuid4()}\n")
-            file.writelines(f"Header: {header}\n")
-            file.writelines(f"Body: {body}\n")
-            file.writelines(f"Created time: {time}\n")
+        dictionary = {
+            "ID": f"{uuid.uuid4()}",
+            "Header": header,
+            "Body": body,
+            "Created time": time
+        }
+        json_object = json.dumps(dictionary, indent=4)
+        with open(f"notes/{header}.json", "w") as f:
+            f.write(json_object)
 
     elif value == '2':
-        name = input("Enter name of note: ")
         try:
-            with open(f"notes/{name}.txt", "r") as file:
-                data = file.readlines()
-                print("Old data:\n", data[0], data[1], data[2], data[3])
+            name = input("Enter name of note: ")
+            with open(f"notes/{name}.json", 'r+') as f:
                 header = input("Enter new header of note: ")
                 body = input("Enter new body of note: ")
                 time = datetime.now().strftime("%D, %H:%M:%S")
-            with open(f"notes/{name}.txt", "w") as file:
-                file.writelines({data[0]})
-                file.writelines(f"Header: {header}\n")
-                file.writelines(f"Body: {body}\n")
-                file.writelines(data[3])
-                file.writelines(f"Updated time: {time}\n")
-            os.rename(f"notes/{name}.txt", f"notes/{header}.txt")
+                data = json.load(f)
+                dictionary = {
+                    "ID": data['ID'],
+                    "Header": header,
+                    "Body": body,
+                    "Created time": data['Created time'],
+                    "Updated time": time
+                }
+                f.seek(0)
+                json.dump(dictionary, f, indent=4)
+                f.truncate()
+            os.rename(f"notes/{name}.json", f"notes/{header}.json")
+            print('Success!\n')
         except Exception:
             print("There is no such file, please try again!\n")
 
     elif value == '3':
         name = input("Enter name of note: ")
         try:
-            with open(f"notes/{name}.txt", "r") as file:
-                print(file.read())
+            with open(f"notes/{name}.json", 'r') as f:
+                data = json.load(f)
+                print(' ')
+                for i in data:
+                    print(f"{i}: {data[i]}")
+                print(' ')
         except Exception:
             print("There is no such file, please try again!\n")
+            
     elif value == '4':
         name = input("Enter name of note: ")
         try:
-            os.remove(f"notes/{name}.txt")
+            os.remove(f"notes/{name}.json")
+            print("Success!\n")
         except Exception:
             print("There is no such file, please try again!\n")
